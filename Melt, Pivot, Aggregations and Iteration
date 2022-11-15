@@ -1,0 +1,52 @@
+#In this assignment you will experiment on your own. 
+#Using a health dataset of your choice (check with us if you are not sure), 
+#write code to demonstrate the following Pandas functions:
+
+#Melt
+#Pivot
+#Aggregation
+#Iteration
+#Groupby
+
+#Using breast cancer data provided
+
+import pandas as pd
+
+breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
+
+
+breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
+
+print(breast_cancer)
+
+
+
+
+
+
+#1. Melt
+
+import pandas as pd
+
+breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
+
+
+breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
+
+
+breast_cancer.melt()
+breast_cancer.melt(id_vars='Deg-melig').sort_values('Deg-melig')
+
+
+
+
+#2. Pivot
+import pandas as pd
+
+breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
+
+
+breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
+
+#print(breast_cancer)
+breast_cancer.pivot(columns='Tumor-size',values='Deg-melig')
