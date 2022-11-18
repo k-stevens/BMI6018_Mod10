@@ -25,6 +25,10 @@ print(breast_cancer)
 
 
 #1. Melt
+#There are lots of ways and variables to 'melt' the data around. To me, the degree of malignancy (deg-melig) seems like
+#a crucial value and I wanted to compare it to other similar cases of malignancy. So I pivoted around 'Deg-Melig', 
+#then sorted it so the like malignancies would be together 
+#This data does not seem the best to use the melt function on, but it is possible to do.
 
 import pandas as pd
 
@@ -34,13 +38,17 @@ breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
 breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
 
 
-breast_cancer.melt()
+#breast_cancer.melt()
+
 breast_cancer.melt(id_vars='Deg-melig').sort_values('Deg-melig')
 
 
 
-
 #2. Pivot
+#For the pivot table, I again was interested in looking at degree of melignancy compared to tumor size, 
+#but I wasn't sure which would be a better representation, so I made a pivot with both. I found that 
+#having the columns be the degrees of malignancy (1,2,3) worked best, with the size being the rows underneath. 
+#It was just more pleasing to the eye and easier to read in my opinion. Even with the NaN terms, you still can understand.
 import pandas as pd
 
 breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
@@ -49,4 +57,94 @@ breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
 breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
 
 #print(breast_cancer)
-breast_cancer.pivot(columns='Tumor-size',values='Deg-melig')
+print(breast_cancer.pivot(columns='Deg-melig',values='Tumor-size'))
+print(breast_cancer.pivot(columns='Tumor-size',values='Deg-melig'))
+
+
+
+
+#3. Aggregate
+#For aggregate, the example in class showed how to find a sum and a minumum. I wanted to show that I could do that
+#with my data as well, but the data type for them are mostly strings, so it concatenated it for the sum and the minimum
+#was just the smallest option for each variable. So I have demonstrated the code and it's technically working, but those
+#functions are not useful for this data. I found you could also count data, so I demonstrated by counting the number of
+#data entries for each column, which showed that we had a complete data set.
+#Online I found that mean and standard deviation can also be considered aggregates, so I calculated those for the Degree
+#of Melignancy, which is an integer, so you could properly calculate those.
+
+import pandas as pd
+
+breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
+
+
+breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
+
+print(breast_cancer.aggregate({'sum', 'min'}))
+print(breast_cancer.aggregate('count'))
+
+print("Mean Degree of Melignancy:       ", breast_cancer['Deg-melig'].mean())
+print("Standard deviation:", breast_cancer['Deg-melig'].std())
+
+
+
+
+
+#4. Iteration
+#For iteration, I showed how you coul iterate a summary(tuple) of each patient's group of data
+#as the output as the variable name then the data.It is a long list,given there 285 entries (index of 0-284), 
+#but I am able to iterate it. I also want to show that I could iterate select data in dataframe,
+#so I only iterated the first 15 rows patients data.
+
+import pandas as pd
+
+breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
+
+
+breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
+
+
+for i, j in breast_cancer.iterrows():
+    print(i, j)
+    print()
+    
+breast_cancer.head(15)
+
+
+
+
+
+
+#5. Groupby
+#I found the Groupby function to most interesting and the most fun to play with. I found you could group the variables
+#and then find the standard deviation (which since degree of melignancy is the only real integer data, I compared the
+#different groups of variables to the mean degree of melignancy. As well as mean, I found you could also calculate 
+#the standard deviation. What was also really helpful is you could sort by variable within a variable (which is what
+#I did when I sorted by tumor size, then by age. Then I compared it to the mean standard deviation. You could also find
+#the sum of something in each category, which may not be specifcally helpful in this example with degree of melignancy,
+#as demonstrated below, but can be helpful with other data in the future to find clusters/outliers/trends without 
+#Python visualization.
+
+
+import pandas as pd
+
+breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
+
+
+breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
+
+
+#breast_cancer.groupby("Tumor-size")
+print("mean degree of melignancy for tumor-size")
+print(breast_cancer.groupby(["Tumor-size"]).mean())
+print("standard deviation of melignancy for tumor-size")
+print(breast_cancer.groupby(["Tumor-size"]).std())
+print("mean degree of melignancy for age")
+print(breast_cancer.groupby(["Age"]).mean())
+print("mean degree of melignancy for radiation treatment")
+print(breast_cancer.groupby(["Irradiate"]).mean())
+print("mean degree of melignancy for tumor-size by age")
+print(breast_cancer.groupby(["Tumor-size", "Age"]).mean())
+print("sum of degree of melignancy for age")
+print(breast_cancer.groupby(["Age"]).sum())
+print("sum of degree of melignancy for tumor-size")
+print(breast_cancer.groupby(["Tumor-size"]).sum())
