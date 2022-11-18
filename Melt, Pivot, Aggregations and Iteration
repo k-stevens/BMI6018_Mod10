@@ -25,11 +25,11 @@ print(breast_cancer)
 
 
 
-
 #1. Melt
 #There are lots of ways and variables to 'melt' the data around. To me, the degree of malignancy (deg-melig) seems like
 #a crucial value and I wanted to compare it to other similar cases of malignancy. So I pivoted around 'Deg-Melig', 
-#then sorted it so the like malignancies would be together 
+#then sorted it so the like malignancies would be together. I also did something similar with melting/grouping age groups together.
+#You do not have to sort the values after melting it, as I show with the 'Age' table, but I find it easier to read/compare data.
 #This data does not seem the best to use the melt function on, but it is possible to do.
 
 import pandas as pd
@@ -42,7 +42,13 @@ breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Nod
 
 #breast_cancer.melt()
 
-breast_cancer.melt(id_vars='Deg-melig').sort_values('Deg-melig')
+print(breast_cancer.melt(id_vars='Deg-melig').sort_values('Deg-melig'))
+
+print(breast_cancer.melt(id_vars='Age'))
+#This is easier to read once it's sorted
+print(breast_cancer.melt(id_vars='Age').sort_values('Age'))
+
+
 
 
 
