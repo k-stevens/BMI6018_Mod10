@@ -9,6 +9,8 @@
 #Groupby
 
 #Using breast cancer data provided
+#A lot of this data is considered as strings, which means some of the code implemented may not be ideal for this data
+#But I am still implementing the code to demonstrate I am able to. Just know I understand some of the code/commands are best suited for other datasets better
 
 import pandas as pd
 
