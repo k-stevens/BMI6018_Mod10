@@ -45,7 +45,7 @@ breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Nod
 print(breast_cancer.melt(id_vars='Deg-melig').sort_values('Deg-melig'))
 
 print(breast_cancer.melt(id_vars='Age'))
-#This is easier to read once it's sorted
+print("This is easier to read once it's sorted")
 print(breast_cancer.melt(id_vars='Age').sort_values('Age'))
 
 
