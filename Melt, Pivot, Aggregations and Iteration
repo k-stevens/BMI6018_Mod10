@@ -24,7 +24,6 @@ print(breast_cancer)
 
 
 
-
 #1. Melt
 #There are lots of ways and variables to 'melt' the data around. To me, the degree of malignancy (deg-melig) seems like
 #a crucial value and I wanted to compare it to other similar cases of malignancy. So I pivoted around 'Deg-Melig', 
@@ -57,6 +56,8 @@ print(breast_cancer.melt(id_vars='Age').sort_values('Age'))
 #but I wasn't sure which would be a better representation, so I made a pivot with both. I found that 
 #having the columns be the degrees of malignancy (1,2,3) worked best, with the size being the rows underneath. 
 #It was just more pleasing to the eye and easier to read in my opinion. Even with the NaN terms, you still can understand.
+#I also wanted to compare the cancerous breast and the quadrant of the breast to try to find any patterns and thought a
+#pivot table would be appropriate.
 import pandas as pd
 
 breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
@@ -65,8 +66,13 @@ breast_cancer = pd.read_csv(r"C:\Users\kisab\Downloads\breast-cancer.data")
 breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Node-caps','Deg-melig','Breast','Breast-quad','Irradiate']
 
 #print(breast_cancer)
-print(breast_cancer.pivot(columns='Deg-melig',values='Tumor-size'))
-print(breast_cancer.pivot(columns='Tumor-size',values='Deg-melig'))
+
+print(breast_cancer1.pivot(columns='Deg-melig',values='Tumor-size'))
+print(breast_cancer1.pivot(columns='Tumor-size',values='Deg-melig'))
+
+print(breast_cancer1.pivot(columns='Breast',values='Breast-quad'))
+
+
 
 
 
@@ -75,10 +81,11 @@ print(breast_cancer.pivot(columns='Tumor-size',values='Deg-melig'))
 #For aggregate, the example in class showed how to find a sum and a minumum. I wanted to show that I could do that
 #with my data as well, but the data type for them are mostly strings, so it concatenated it for the sum and the minimum
 #was just the smallest option for each variable. So I have demonstrated the code and it's technically working, but those
-#functions are not useful for this data. I found you could also count data, so I demonstrated by counting the number of
+#functions are not as useful for this data. I found you could also count data, so I demonstrated by counting the number of
 #data entries for each column, which showed that we had a complete data set.
-#Online I found that mean and standard deviation can also be considered aggregates, so I calculated those for the Degree
-#of Melignancy, which is an integer, so you could properly calculate those.
+#Online I found that count,mean, and standard deviation can also be considered aggregates, so I calculated those for the Degree
+#of Melignancy, which is an integer, so you could properly calculate those. I found that groupby and aggregate are closely associated
+#and often used together, so I also used a groupby in this section because of that.
 
 import pandas as pd
 
@@ -89,6 +96,7 @@ breast_cancer.columns = ['Class','Age','Menopause','Tumor-size','Inv-nodes','Nod
 
 print(breast_cancer.aggregate({'sum', 'min'}))
 print(breast_cancer.aggregate('count'))
+print(breast_cancer.groupby(["Tumor-size"]).count())
 
 print("Mean Degree of Melignancy:       ", breast_cancer['Deg-melig'].mean())
 print("Standard deviation:", breast_cancer['Deg-melig'].std())
@@ -97,11 +105,13 @@ print("Standard deviation:", breast_cancer['Deg-melig'].std())
 
 
 
+
+
 #4. Iteration
-#For iteration, I showed how you coul iterate a summary(tuple) of each patient's group of data
-#as the output as the variable name then the data.It is a long list,given there 285 entries (index of 0-284), 
-#but I am able to iterate it. I also want to show that I could iterate select data in dataframe,
-#so I only iterated the first 15 rows patients data.
+#For iteration, I showed how you could iterate a summary(tuple) of each patient's group of data
+#as the output as the variable name then the data. It is a long list, given there 285 entries (index of 0-284), 
+#but I am able to iterate it. I also wanted to show that I could iterate select data in dataframe,
+#so I only iterated the first 15 rows of patients data.
 
 import pandas as pd
 
@@ -116,6 +126,7 @@ for i, j in breast_cancer.iterrows():
     print()
     
 breast_cancer.head(15)
+
 
 
 
